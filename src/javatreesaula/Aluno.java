@@ -1,4 +1,7 @@
 package javatreesaula;
+
+import java.util.Objects;
+
 public class Aluno implements Comparable<Aluno>{
     private int matricula;
     private String nome;
@@ -6,6 +9,10 @@ public class Aluno implements Comparable<Aluno>{
     public Aluno(int matricula, String nome){
         this.matricula = matricula;
         this.nome = nome;
+    }
+    
+        public Aluno(){
+
     }
     
     public int getMatricula() {
@@ -33,5 +40,6 @@ public class Aluno implements Comparable<Aluno>{
             return " Matricula:"+this.matricula+
                       " Nome:"+this.nome;
     }
+    
     
 }
