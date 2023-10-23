@@ -26,6 +26,23 @@ public class BinarySearchTree<T extends Comparable<T>>{
             return raiz; // retorna a raiz atualizada
     }
     
+    //--------------------------------------
+    // Busca
+    public T buscar(T dadoBusca){
+        return (T)buscar(raiz,dadoBusca);
+    }
+    private T buscar(Node<T> raiz, T dadoBusca){
+        if(raiz==null)
+          return null;
+        if(raiz.dado.equals(dadoBusca))
+            return raiz.dado;
+        if(dadoBusca.compareTo(raiz.dado)<0)
+            return buscar(raiz.esquerda, dadoBusca);
+        else
+            return buscar(raiz.direita,dadoBusca);
+    }
+    //--------------------------------------
+    
     public void preOrder(){
         preOrder(raiz);
     }
@@ -34,6 +51,18 @@ public class BinarySearchTree<T extends Comparable<T>>{
             System.out.print(raiz.dado+", ");
             preOrder(raiz.esquerda);
             preOrder(raiz.direita);
+        }// fim 
+    }
+    
+     public void preOrder(JTextArea listMostraDados){
+        preOrder(raiz, listMostraDados);
+        listMostraDados.append("\n");
+    }
+    private void preOrder(Node<T> raiz, JTextArea listMostraDados){
+        if(raiz!=null){
+            listMostraDados.append(raiz.dado+" |");
+            preOrder(raiz.esquerda, listMostraDados);
+            preOrder(raiz.direita, listMostraDados);
         }// fim 
     }
     
@@ -58,8 +87,51 @@ public class BinarySearchTree<T extends Comparable<T>>{
         }// fim 
     }
     //----------------------
+       
+    public Node<T> removeNode(Node<T> raiz) {
+        Node<T> nova, pai;
+        if(raiz.direita==null){
+            nova = raiz.esquerda;
+            return nova;
+        }
+        // percorrer até achar o menor da direita
+        pai = raiz; nova= raiz.direita;
+        while(nova.esquerda!=null){
+		pai=nova;
+		nova = nova.esquerda;
+	}// fim while
         
+        // reorganizar os ponteiros
+	if(pai!=raiz){
+		pai.esquerda = nova.direita;
+		nova.direita = raiz.direita;
+	}
+        
+        nova.esquerda = raiz.esquerda;
+        System.out.println("Retornando nova raiz:"+nova.dado);
+	return nova;
+}
 
+public void remove(T dadoRemover) {
+    raiz = remove(this.raiz, dadoRemover);
+}
+
+public Node<T> remove(Node<T> raiz, T dadoRemover) {
+    	if(raiz==null){
+                System.out.println("Não encontrado - :(");
+		return null;
+        }
+	if(raiz.dado.equals(dadoRemover)){
+                System.out.println("Encontrado - removendo");
+		return removeNode(raiz);
+        }
+	if(dadoRemover.compareTo(raiz.dado)<0)
+		raiz.esquerda = remove(raiz.esquerda,dadoRemover);
+	else
+	    raiz.direita = remove(raiz.direita,dadoRemover);
+	
+        return raiz;
+}// fim buscaRemove
 
     
 }
