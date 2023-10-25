@@ -11,7 +11,7 @@ public class Aluno implements Comparable<Aluno>{
         this.nome = nome;
     }
     
-        public Aluno(){
+    public Aluno(){
 
     }
     
@@ -37,9 +37,20 @@ public class Aluno implements Comparable<Aluno>{
     }
     @Override
     public String toString(){
-            return " Matricula:"+this.matricula+
+            return " Matricula: "+this.matricula+
                       " Nome:"+this.nome;
     }
+    @Override
+    public boolean equals(Object novoObjeto){
+        if(this == novoObjeto)
+            return true;
+        if(novoObjeto == null || 
+                this.getClass()!= novoObjeto.getClass())
+           return false; 
+        Aluno outroAluno = (Aluno) novoObjeto;
+        return this.matricula == outroAluno.matricula;
+    }
+    
     
     
 }
