@@ -3,9 +3,34 @@ package javatreesaula;
 
 import javax.swing.JTextArea;
 
-public class BinarySearchTree<T extends Comparable<T>>{
+public class AVLTree<T extends Comparable<T>>{
     Node raiz=null;
     int cont;
+    
+    public int altura(Node raiz) {
+            int altEsq, altDir;
+            if (raiz == null) {
+                return -1;
+            }
+            altEsq = altura(raiz.esquerda);
+            altDir = altura(raiz.direita);
+            if (altDir > altEsq)
+                return altDir + 1;
+            else
+                return altEsq + 1;
+           
+    }// fim funcao altura
+    public Node<T> rotacaoDir(Node<T> raiz){
+        Node<T> nova = raiz.esquerda;
+        raiz.esquerda = nova.direita;
+        nova.direita = raiz;
+        //atualizar fator de balanceamento
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        nova.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        System.out.println("Rotacao Direita -->");
+        return nova;
+    }
+            
     public int add(T novoDado){
         Node<T> novoNo = new Node<T>(novoDado);
         cont=0;
