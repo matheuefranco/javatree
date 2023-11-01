@@ -4,7 +4,7 @@ import java.io.*;
 import javax.swing.JOptionPane;
 
 public class Formulario extends javax.swing.JFrame {
-    //BinarySearchTree<Aluno> tree = new BinarySearchTree<>();
+      BinarySearchTree<Aluno> bstree = new BinarySearchTree<>();
       AVLTree<Aluno> tree = new AVLTree<>();
     public Formulario() {
         initComponents();
@@ -28,6 +28,8 @@ public class Formulario extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         btnAltura = new javax.swing.JButton();
+        btnAlturaBST = new javax.swing.JButton();
+        btnLoadFileBST = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -118,13 +120,13 @@ public class Formulario extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 560, 220));
 
         btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javatreesaula/csv.png"))); // NOI18N
-        btnLoadFile.setText("Load file");
+        btnLoadFile.setText("Load file AVL");
         btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadFileActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLoadFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 120, 40));
+        getContentPane().add(btnLoadFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 140, 40));
         btnLoadFile.getAccessibleContext().setAccessibleName("CSV");
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javatreesaula/procurar.png"))); // NOI18N
@@ -145,17 +147,55 @@ public class Formulario extends javax.swing.JFrame {
         });
         getContentPane().add(btnRemover, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 220, 110, 40));
 
-        btnAltura.setText("Altura");
+        btnAltura.setText("Altura AVL");
         btnAltura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlturaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 280, 100, 40));
+        getContentPane().add(btnAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 330, 100, 40));
+
+        btnAlturaBST.setText("Altura BST");
+        btnAlturaBST.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlturaBSTActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAlturaBST, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 280, 100, 40));
+
+        btnLoadFileBST.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javatreesaula/csv.png"))); // NOI18N
+        btnLoadFileBST.setText("Load file BST");
+        btnLoadFileBST.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFileBSTActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLoadFileBST, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 140, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void carregaArquivo(AVLTree<Aluno> tree){
+     String csvFile = "dados.csv";
+        String line = "";
+        String[] leitura = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                Aluno aluno = new Aluno();
+                leitura = line.split(";");
+               // System.out.println(leitura[0]+" " + leitura[1]);
+                aluno.setMatricula(Integer.parseInt(leitura[0]));
+                aluno.setNome(leitura[1]);
+                int qtd= tree.add(aluno); 
+                //tree.preOrder(listMostraDados);
+                //listMostraDados.append("Comparações para inserção:"+qtd+"\n");
+            }// fim percurso no arquivo
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+     private void carregaArquivo(BinarySearchTree<Aluno> tree){
      String csvFile = "dados.csv";
         String line = "";
         String[] leitura = null;
@@ -217,6 +257,16 @@ public class Formulario extends javax.swing.JFrame {
         listMostraDados.append("\nAltura da arvore: "+tree.altura());
     }//GEN-LAST:event_btnAlturaActionPerformed
 
+    private void btnAlturaBSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlturaBSTActionPerformed
+       listMostraDados.append("Altura BST: "+bstree.altura());
+    }//GEN-LAST:event_btnAlturaBSTActionPerformed
+
+    private void btnLoadFileBSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileBSTActionPerformed
+        carregaArquivo(bstree);
+        bstree.preOrder(listMostraDados);
+        
+    }//GEN-LAST:event_btnLoadFileBSTActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,7 +305,9 @@ public class Formulario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAltura;
+    private javax.swing.JButton btnAlturaBST;
     private javax.swing.JButton btnLoadFile;
+    private javax.swing.JButton btnLoadFileBST;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
