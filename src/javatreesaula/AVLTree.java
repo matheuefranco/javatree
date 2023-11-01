@@ -26,9 +26,20 @@ public class AVLTree<T extends Comparable<T>>{
         nova.direita = raiz;
         //atualizar fator de balanceamento
         raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
-        nova.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        nova.fb = altura(nova.direita) - altura(nova.esquerda);
         System.out.println("Rotacao Direita -->");
         return nova;
+    }
+    
+    public Node<T> rotacaoEsq(Node<T> raiz){
+            Node<T> nova = raiz.direita;
+            raiz.direita = nova.esquerda;
+            nova.esquerda = raiz;
+            // atualizar os fb
+            raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+            nova.fb = altura(nova.direita) - altura(nova.esquerda);
+            System.out.println("Rotacao Esquerda -->");
+            return nova;
     }
             
     public int add(T novoDado){
@@ -47,7 +58,25 @@ public class AVLTree<T extends Comparable<T>>{
                 raiz.direita = inserir(raiz.direita, novo);
             else
                 raiz.esquerda = inserir(raiz.esquerda, novo);
-            
+            // atualizar o fb
+            raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+            switch(raiz.fb){
+                case 2: if(raiz.direita.fb>=0) // rot esquerda
+                            raiz = rotacaoEsq(raiz);
+                        else{
+                            raiz.direita = rotacaoDir(raiz.direita);
+                            raiz = rotacaoEsq(raiz);
+                        }
+                break;
+                case -2: if(raiz.esquerda.fb <=0) // rot direitra
+                            raiz = rotacaoDir(raiz); // simples
+                        else{
+                            raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                            raiz = rotacaoDir(raiz);
+                        }      
+                break;
+            }             
+           
             return raiz; // retorna a raiz atualizada
     }
     
@@ -155,6 +184,25 @@ private Node<T> remove(Node<T> raiz, T dadoRemover) {
 	else
 	    raiz.direita = remove(raiz.direita,dadoRemover);
 	
+        // atualizar o fb
+            raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+            switch(raiz.fb){
+                case 2: if(raiz.direita.fb>=0) // rot esquerda
+                            raiz = rotacaoEsq(raiz);
+                        else{
+                            raiz.direita = rotacaoDir(raiz.direita);
+                            raiz = rotacaoEsq(raiz);
+                        }
+                break;
+                case -2: if(raiz.esquerda.fb <=0) // rot direitra
+                            raiz = rotacaoDir(raiz); // simples
+                        else{
+                            raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                            raiz = rotacaoDir(raiz);
+                        }      
+                break;
+            }             
+            
         return raiz;
 }// fim buscaRemove
 
