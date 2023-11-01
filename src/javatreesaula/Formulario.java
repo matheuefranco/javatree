@@ -4,8 +4,8 @@ import java.io.*;
 import javax.swing.JOptionPane;
 
 public class Formulario extends javax.swing.JFrame {
-    BinarySearchTree<Aluno> tree = new BinarySearchTree<>();
-       
+    //BinarySearchTree<Aluno> tree = new BinarySearchTree<>();
+      AVLTree<Aluno> tree = new AVLTree<>();
     public Formulario() {
         initComponents();
     }
@@ -27,6 +27,7 @@ public class Formulario extends javax.swing.JFrame {
         btnLoadFile = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
+        btnAltura = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -71,7 +72,7 @@ public class Formulario extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Binary Search Tree");
+        jLabel3.setText("AVL Tree");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,22 +145,30 @@ public class Formulario extends javax.swing.JFrame {
         });
         getContentPane().add(btnRemover, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 220, 110, 40));
 
+        btnAltura.setText("Altura");
+        btnAltura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlturaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 280, 100, 40));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void carregaArquivo(BinarySearchTree<Aluno> tree){
+    private void carregaArquivo(AVLTree<Aluno> tree){
      String csvFile = "dados.csv";
         String line = "";
         String[] leitura = null;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 Aluno aluno = new Aluno();
-                leitura = line.split(",");
+                leitura = line.split(";");
                // System.out.println(leitura[0]+" " + leitura[1]);
                 aluno.setMatricula(Integer.parseInt(leitura[0]));
                 aluno.setNome(leitura[1]);
                 int qtd= tree.add(aluno); 
-                tree.preOrder(listMostraDados);
-                listMostraDados.append("Comparações para inserção:"+qtd+"\n");
+                //tree.preOrder(listMostraDados);
+                //listMostraDados.append("Comparações para inserção:"+qtd+"\n");
             }// fim percurso no arquivo
             
         } catch (IOException e) {
@@ -182,6 +191,7 @@ public class Formulario extends javax.swing.JFrame {
 
     private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
         carregaArquivo(tree);
+        tree.preOrder(listMostraDados);
     }//GEN-LAST:event_btnLoadFileActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -202,6 +212,10 @@ public class Formulario extends javax.swing.JFrame {
         listMostraDados.append("\n Após remoção\n");
         tree.preOrder(listMostraDados);
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlturaActionPerformed
+        listMostraDados.append("\nAltura da arvore: "+tree.altura());
+    }//GEN-LAST:event_btnAlturaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,6 +254,7 @@ public class Formulario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAltura;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSearch;

@@ -7,7 +7,11 @@ public class AVLTree<T extends Comparable<T>>{
     Node raiz=null;
     int cont;
     
-    public int altura(Node raiz) {
+    public int altura(){
+            return altura(raiz);
+    }
+    
+    private int altura(Node raiz) {
             int altEsq, altDir;
             if (raiz == null) {
                 return -1;
@@ -114,7 +118,7 @@ public class AVLTree<T extends Comparable<T>>{
     }
     private void preOrder(Node<T> raiz, JTextArea listMostraDados){
         if(raiz!=null){
-            listMostraDados.append(raiz.dado+" |");
+            listMostraDados.append(raiz.dado+"|fb:"+raiz.fb+"|");
             preOrder(raiz.esquerda, listMostraDados);
             preOrder(raiz.direita, listMostraDados);
         }// fim 

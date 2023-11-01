@@ -6,6 +6,25 @@ import javax.swing.JTextArea;
 public class BinarySearchTree<T extends Comparable<T>>{
     Node raiz=null;
     int cont;
+    
+     public int altura(){
+            return altura(raiz);
+    }
+    
+    private int altura(Node raiz) {
+            int altEsq, altDir;
+            if (raiz == null) {
+                return -1;
+            }
+            altEsq = altura(raiz.esquerda);
+            altDir = altura(raiz.direita);
+            if (altDir > altEsq)
+                return altDir + 1;
+            else
+                return altEsq + 1;
+           
+    }// fim funcao altura
+    
     public int add(T novoDado){
         Node<T> novoNo = new Node<T>(novoDado);
         cont=0;

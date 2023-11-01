@@ -37,8 +37,7 @@ public class Aluno implements Comparable<Aluno>{
     }
     @Override
     public String toString(){
-            return " Matricula: "+this.matricula+
-                      " Nome:"+this.nome;
+            return " ID:"+this.matricula;//+" Nome:"+this.nome;
     }
     @Override
     public boolean equals(Object novoObjeto){
